@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Occupational Info</title>
+    <style>
+
+        #chart {
+            margin-left: 0px;
+        }
+
+        text {
+            font: 10px sans-serif;
+        }
+
+        .bar {
+            fill: steelblue;
+        }
+        .bar:hover {
+            fill: brown;
+        }
+
+        .dot {
+            stroke: #000;
+        }
+
+        .axis path, .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .label {
+            fill: #777;
+        }
+
+        .country {
+            font: 500 48px "Helvetica Neue";
+            text-anchor:center;
+            fill: #ddd;
+        }
+
+        .year.label {
+            font: 500 48px "Helvetica Neue";
+            fill: #ddd;
+        }
+
+        .year.label.active {
+            fill: #aaa;
+        }
+
+        .hidden {
+            color: #f00;
+        }
+
+        .visible {
+            color: #0f0;
+        }
+
+        .overlay {
+            fill: none;
+            pointer-events: all;
+            cursor: ns-resize;
+        }
+
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            width: 100px;
+            height: 0px;
+            padding: 1px;
+            font: 10px sans-serif;
+            font-weight: bold;
+            background: whitesmoke;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+            display: table;
+
+        }
+        .citation {
+
+            width: 50%;
+            height: 35%;
+            padding: 1px;
+            font: 10px sans-serif;
+            font-weight: bold;
+            background: gainsboro;
+            border: 0px;
+            border-radius: 8px;
+            margin: 0 auto;
+            margin-bottom: 3%;
+        }
+
+    </style>
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<body style="background-color: #FCFCFA">
+
+<h1 style="text-align: center; font-size: 3em">Occupational Employment and Income</h1>
+
+<div id="chart" style="margin: 0 auto; width: 75%; height: 506px"></div>
+<div id="tooltip" class="hidden" style="float: left">
+    <p><span id="value"></span></p>
+</div>
+
+<div class="row" style="margin-top: 3em; margin-bottom:  5em">
+    <div class="col-md-2 col-md-offset-5">
+        <h4 style="text-align: center">Get data by year</h4>
+        <div class="input-group">
+            <input type="text" class="form-control" id="inputYear" placeholder="Enter year...">
+            <span class="input-group-btn">
+            <button class="btn btn-primary" id="modalButton" data-toggle="modal" data-target="#barChartModal"
+                    type="button">Go!</button>
+          </span>
+        </div><!-- /input-group -->
+    </div><!-- /.col-lg-6 -->
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="barChartModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body" id="modal-body" style="margin: 0 auto; width: 75%; margin-bottom: 2em">
+
+            </div>
+            <div style="margin: 0 auto; width: 15%; margin-bottom: 2em">
+                <input id="toggleData" data-width="100" checked data-toggle="toggle" data-on="Income" data-off="Employed"
+                       data-onstyle="primary" data-offstyle="default" type="checkbox">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="citation">
+    <h5 style="padding: 10px; font-weight: bold">Sources:</h5>
+    <p style="padding-left: 10px;">D3Noob - (Tooltip) <a href="http://bl.ocks.org/d3noob/a22c42db65eb00d4e369">
+        http://bl.ocks.org/d3noob/a22c42db65eb00d4e369</a></p>
+    <p style="padding-left: 10px;">Tony Hirst - (Motion Chart Starter Code) <a href="http://bl.ocks.org/psychemedia/7337488">
+        http://bl.ocks.org/psychemedia/7337488</a></p>
+    <p style="padding-left: 10px;">D3Noob - (Bar Chart) <a href="http://bl.ocks.org/psychemedia/7337488">
+        http://bl.ocks.org/d3noob/8952219</a></p>
+    <p style="padding-left: 10px;">Bureau of Labor Statistics <a href="http://data.bls.gov/cgi-bin/surveymost?ce">
+        http://data.bls.gov/cgi-bin/surveymost?ce</a></p>
+    <p style="padding-left: 10px;">Department of Labor <a href="http://beta.bls.gov/dataQuery/find?st=0&r=20&more=0">
+        http://beta.bls.gov/dataQuery/find?st=0&r=20&more=0</a></p>
+
+</div>
+
+<!-- <script src="http://d3js.org/d3.v2.js?2.8.1"></script> -->
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="params.js" ></script>
+<script src="motion_chart.js"></script>
+<script src="modal.js"></script>
+
+
+
+
+
+</body>
+</html>
