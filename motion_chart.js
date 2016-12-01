@@ -19,8 +19,6 @@ function key(d) {
 }
 
 
-//var currentCountry = "";
-
 //Define Color
 var colors = d3.scale.category20();
 
