@@ -6,9 +6,11 @@ function x(d) {
 function y(d) {
     return d[params.y];
 }
+
 function radius(d) {
     return d[params.radius];
 }
+
 function color(d) {
     return d[params.color];
 }
@@ -17,7 +19,7 @@ function key(d) {
 }
 
 
-var currentCountry = "";
+//var currentCountry = "";
 
 //Define Color
 var colors = d3.scale.category20();
@@ -36,11 +38,13 @@ var xScale = d3.scale.log().domain([params.xmin, params.xmax]).range([0, width -
 var xAxis = d3.svg.axis().orient("bottom").scale(xScale).ticks(12, d3.format(",d")),
     yAxis = d3.svg.axis().scale(yScale).orient("left");
 
+/*
 var yearScale = d3.scale.linear()
     .domain([params.yearMin, params.yearMax])
     .range([48, height - 64])
-    //                .range([box.x + 10, box.x + box.width - 10])
+    //.range([box.x + 10, box.x + box.width - 10])
     .clamp(true);
+*/
 
 // Create the SVG container and set the origin.
 var svg = d3.select("#" + params.dom).append("svg")
@@ -90,11 +94,13 @@ var div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-
+//Define radius of legend
+var radius2 = d3.scale.sqrt()
+    .domain([0, 1e6])
+    .range([0, 10]);
 
 function motionChart(nations) {
 
-    var currentCountries = params.countryHighlights;
 
     // A bisector since many nation's data is sparsely-defined.
     var bisect = d3.bisector(function (d) {
@@ -112,7 +118,8 @@ function motionChart(nations) {
         .style("fill", function (d) {
             return colors(d.occupation);
         }).on("click", function(d,i){var titleElement = this.firstChild;
-            titleElement.getAttribute("class") === "hidden" ? titleElement.setAttribute("class", "visible") : titleElement.setAttribute("class", "hidden");
+            titleElement.getAttribute("class") === "hidden" ? titleElement.setAttribute("class", "visible") :
+                titleElement.setAttribute("class", "hidden");
         })
         .on("touch", function(d,i) { country.text(d[params.key]); })
         .on("mouseover", function(d,i){
@@ -141,7 +148,7 @@ function motionChart(nations) {
             return d[params.key];
         });
 
-
+    //Legend
     var legend = svg.append("g")
         .attr("class", "legend")
         .selectAll("g")
@@ -162,8 +169,24 @@ function motionChart(nations) {
         .attr("dy", "0.50em")
         .text(function(d){return d.occupation;})
 
+    //Radius Correlation
+    var legend2 = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", "translate(" + 775 + "," + 325 + ")")
+        .selectAll("g")
+        .data([1e6, 5e6, 15e6, 30e6])
+        .enter().append("g");
 
-    // Add an overlay for the year label.
+    legend2.append("circle")
+        .attr("cy", function(d) { return -radius2(d); })
+        .attr("r", radius2);
+
+    legend2.append("text")
+        .attr("y", function(d) { return -2 * radius2(d); })
+        .attr("dy", "1.3em")
+        .attr("x", "-7")
+        .text(d3.format(".1s"));
+
     var box = label.node().getBBox();
 
     var overlay = svg.append("rect")
@@ -191,8 +214,7 @@ function motionChart(nations) {
             })
             .attr("r", function (d) {
 
-                return d.employed / 500 + 1;
-
+                return radius2(d.employed * 1000);
             });
     }
 
@@ -216,6 +238,12 @@ function motionChart(nations) {
             .on("mousemove", mousemove)
             .on("touchmove", mousemove);
 
+        overlay
+            .on("mouseover", mouseover)
+            .on("mouseout", mouseout);
+            //.on("mousemove", mousemove)
+            //.on("touchmove", mousemove);
+
         function mouseover() {
             label.classed("active", true);
         }
@@ -226,7 +254,7 @@ function motionChart(nations) {
 
         function mousemove() {
 //            console.log(d3.mouse(this)[1]);
-            displayYear(yearScale.invert(Number(d3.mouse(this)[1])));
+            //displayYear(yearScale.invert(Number(d3.mouse(this)[1])));
 //            displayYear(yearScale.invert(100));
         }
     }
