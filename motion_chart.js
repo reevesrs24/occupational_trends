@@ -28,18 +28,6 @@ var margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 41.5},
     height = params.height - margin.top - margin.bottom,
     yearMargin = 105;
 
-// Various scales. These domains make assumptions of data, naturally.
-//d3.scale.log() d3.scale.linear()
-/*
- if (params.xscale=='log') var xScale = d3.scale.log().domain([params.xmin, params.xmax]).range([0, width - yearMargin]);
- else  var xScale = d3.scale.linear().domain([params.xmin, params.xmax]).range([0, width - yearMargin]);
- if (params.yscale=='log') var yScale = d3.scale.log().domain([params.ymin, params.ymax]).range([height, 0])
- else var yScale = d3.scale.linear().domain([params.ymin, params.ymax]).range([height, 0]),
- radiusScale = d3.scale.sqrt().domain([params.rmin, params.rmax]).range([10, 10]),
- colorScale = d3.scale.category10();
- */
-//Test
-// Various scales. These domains make assumptions of data, naturally.
 var xScale = d3.scale.log().domain([params.xmin, params.xmax]).range([0, width - yearMargin]),
     yScale = d3.scale.linear().domain([params.ymin, params.ymax]).range([height, 0]),
     radiusScale = d3.scale.sqrt().domain([params.rmin, params.rmax]).range([5, 25]);
@@ -102,6 +90,8 @@ var div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
+
+
 function motionChart(nations) {
 
     var currentCountries = params.countryHighlights;
@@ -151,6 +141,28 @@ function motionChart(nations) {
             return d[params.key];
         });
 
+
+    var legend = svg.append("g")
+        .attr("class", "legend")
+        .selectAll("g")
+        .data(interpolateData(params.yearMin))
+        .enter()
+        .append("g")
+        .attr("transform", function(d,i){
+            return "translate(" + 700 + "," + i*20 + ")";
+        });
+
+    legend.append("rect")
+        .attr("width", 8)
+        .attr("height", 8)
+        .style("fill", function(d){return colors(d.occupation)});
+
+    legend.append("text")
+        .attr("x", 25)
+        .attr("dy", "0.50em")
+        .text(function(d){return d.occupation;})
+
+
     // Add an overlay for the year label.
     var box = label.node().getBBox();
 
@@ -188,6 +200,8 @@ function motionChart(nations) {
     function order(a, b) {
         return radius(b) - radius(a);
     }
+
+
 
     // After the transition finishes, you can mouseover to change the year.
     function enableInteraction() {
@@ -230,7 +244,8 @@ function motionChart(nations) {
     function displayYear(year) {
         dot.data(interpolateData(year), key).call(position).sort(order);
         label.text(Math.round(year))
-            .attr("y", 48 + (year - params.yearMin) * (height - 64)/ (params.yearMax - params.yearMin));
+            //.attr("y", 48 + (year - params.yearMin) * (height - 64)/ (params.yearMax - params.yearMin));
+            .attr("y", 425);
     }
 
     // Interpolates the dataset for the given (fractional) year.
