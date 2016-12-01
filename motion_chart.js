@@ -22,6 +22,8 @@ function key(d) {
 //Define Color
 var colors = d3.scale.category20();
 
+var currentYear = '1964';
+
 // Chart dimensions.
 var margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 41.5},
     width = params.width - margin.right,
@@ -116,7 +118,10 @@ function motionChart(nations) {
             div.transition()
                 .duration(200)
                 .style("opacity", .9);
-            div.html("<p>" + d.occupation + "</p>")
+            div.html("<p>" + d.occupation + "</p>"
+                + "<p>" + currentYear.toFixed(0) + "</p>"
+                      + "<p>Income: $" + getIncome(d)+ "</p>"
+                        +  "<p>Employed: " + getEmployed(d)+ "M</p>")
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY) + "px");
             //Show the tooltip
@@ -138,6 +143,13 @@ function motionChart(nations) {
             return d[params.key];
         });
 
+    function getIncome(d) {
+        return d['income'].toFixed(0);
+    }
+
+    function getEmployed(d) {
+        return (d['employed'] / 1000).toFixed(1);
+    }
     //Legend
     var legend = svg.append("g")
         .attr("class", "legend")
@@ -260,6 +272,7 @@ function motionChart(nations) {
 
     // Updates the display to show the specified year.
     function displayYear(year) {
+        currentYear = year;
         dot.data(interpolateData(year), key).call(position).sort(order);
         label.text(Math.round(year))
             //.attr("y", 48 + (year - params.yearMin) * (height - 64)/ (params.yearMax - params.yearMin));
