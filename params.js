@@ -16,10 +16,10 @@ params.radius='employed'
 params.color='red'
 params.key='occupation'
 params.xlabel="weekly income (dollars)"
-params.ylabel="total employed (thousands)"
+params.ylabel="total employed (millions)"
 
 params.ymin=0
-params.ymax=30000
+params.ymax=30
 params.xmin=25
 params.xmax=3000
 params.rmin=5

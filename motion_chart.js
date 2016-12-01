@@ -4,7 +4,7 @@ function x(d) {
     return d[params.x];
 }
 function y(d) {
-    return d[params.y];
+    return d[params.y] / 1000;
 }
 
 function radius(d) {
@@ -37,14 +37,6 @@ var xScale = d3.scale.log().domain([params.xmin, params.xmax]).range([0, width -
 // The x & y axes.
 var xAxis = d3.svg.axis().orient("bottom").scale(xScale).ticks(12, d3.format(",d")),
     yAxis = d3.svg.axis().scale(yScale).orient("left");
-
-/*
-var yearScale = d3.scale.linear()
-    .domain([params.yearMin, params.yearMax])
-    .range([48, height - 64])
-    //.range([box.x + 10, box.x + box.width - 10])
-    .clamp(true);
-*/
 
 // Create the SVG container and set the origin.
 var svg = d3.select("#" + params.dom).append("svg")

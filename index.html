@@ -79,15 +79,9 @@
 
         }
         .citation {
-
-            padding: 1px;
-            font: 10px sans-serif;
             font-weight: bold;
-            background: gainsboro;
-            border: 0px;
+            background-color: gainsboro;
             border-radius: 8px;
-            margin: 0 auto;
-            margin-bottom: 3%;
         }
 
         .legend circle {
@@ -104,39 +98,44 @@
 
 
 <div id="chart" style="margin: 0 auto; width: 75%; height: 506px;"></div>
-
-<div id="tooltip" class="hidden" style="float: left">
-    <p><span id="value"></span></p>
-</div>
+<div id="tooltip" class="hidden" style="float: left"><p><span id="value"></span></p></div>
 
 
 
-<div class="citation" style="margin-top: 5%; width: 50%">
-    <h5 style="padding: 10px; font-weight: bold">Sources:</h5>
-    <p style="padding-left: 10px;">D3Noob - (Tooltip) <a href="http://bl.ocks.org/d3noob/a22c42db65eb00d4e369">
-        http://bl.ocks.org/d3noob/a22c42db65eb00d4e369</a></p>
-    <p style="padding-left: 10px;">Tony Hirst - (Motion Chart Starter Code) <a href="http://bl.ocks.org/psychemedia/7337488">
-        http://bl.ocks.org/psychemedia/7337488</a></p>
-    <p style="padding-left: 10px;">D3Noob - (Bar Chart) <a href="http://bl.ocks.org/psychemedia/7337488">
-        http://bl.ocks.org/d3noob/8952219</a></p>
-    <p style="padding-left: 10px;">ZJONSSON - (Legend) <a href="https://gist.github.com/ZJONSSON/3918369">
-        https://gist.github.com/ZJONSSON/3918369</a></p>
-    <p style="padding-left: 10px;">Bureau of Labor Statistics <a href="http://data.bls.gov/cgi-bin/surveymost?ce">
-        http://data.bls.gov/cgi-bin/surveymost?ce</a></p>
-    <p style="padding-left: 10px;">Department of Labor <a href="http://beta.bls.gov/dataQuery/find?st=0&r=20&more=0">
-        http://beta.bls.gov/dataQuery/find?st=0&r=20&more=0</a></p>
+<div class="col-sm-4" style="word-wrap: break-word; background: gainsboro; border-radius: 12px; margin-top: 8%; margin-left: 15%; margin-bottom: 5%; width: 60%">
+    <div class="col-sm-4" style="font-weight: bold; float: left">
+        <h5 style="padding: 10px; font-weight: bold">Created By:</h5>
+        <p style="padding-left: 10px;"><b>Student 1:</b> Ryan Reeves in collaboration with Suresh K. Lodha</p>
+    </div>
+    <div class="col-sm-4" style="font-weight: bold; float: left">
+        <h5 style="padding: 10px; font-weight: bold">Files:</h5>
+        <p style="padding-left: 10px;">index.html</p>
+        <p style="padding-left: 10px;">motion_chart.js</p>
+        <p style="padding-left: 10px;">params.js</p>
+
+    </div>
+    <div class="col-sm-4" style="font-weight: bold; float: left">
+        <h5 style="font-weight: bold">Sources:</h5>
+        <p style="padding-left: 10px;">D3Noob - (Tooltip) <a href="http://bl.ocks.org/d3noob/a22c42db65eb00d4e369">
+            http://bl.ocks.org/d3noob/a22c42db65eb00d4e369</a></p>
+        <p style="padding-left: 10px;">Tony Hirst - (Motion Chart Starter Code) <a href="http://bl.ocks.org/psychemedia/7337488">
+            http://bl.ocks.org/psychemedia/7337488</a></p>
+        <p style="padding-left: 10px;">ZJONSSON - (Legend) <a href="https://gist.github.com/ZJONSSON/3918369">
+            https://gist.github.com/ZJONSSON/3918369</a></p>
+        <p style="padding-left: 10px;">Mike Bostock - (Bubble Legend) <a href="https://bost.ocks.org/mike/bubble-map/">
+            https://bost.ocks.org/mike/bubble-map/</a></p>
+        <p style="padding-left: 10px;">Bureau of Labor Statistics <a href="http://data.bls.gov/cgi-bin/surveymost?ce">
+            http://data.bls.gov/cgi-bin/surveymost?ce</a></p>
+        <p style="padding-left: 10px;">Department of Labor <a href="http://beta.bls.gov/dataQuery/find?st=0&r=20&more=0">
+            http://beta.bls.gov/dataQuery/find?st=0&r=20&more=0</a></p>
+    </div>
 
 </div>
 
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="params.js" ></script>
 <script src="motion_chart.js"></script>
-
-
 
 
 
