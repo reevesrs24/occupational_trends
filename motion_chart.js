@@ -20,7 +20,9 @@ function key(d) {
 
 
 //Define Color
-var colors = d3.scale.category20();
+//var colors = d3.scale.category20();
+var colors = d3.scale.ordinal()
+    .range(["#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#d9d9d9", "#fbb4ae"]);
 
 var currentYear = '1964';
 
@@ -118,12 +120,13 @@ function motionChart(nations) {
             div.transition()
                 .duration(200)
                 .style("opacity", .9);
-            div.html("<p>" + d.occupation + "</p>"
-                + "<p>" + currentYear.toFixed(0) + "</p>"
-                      + "<p>Income: $" + getIncome(d)+ "</p>"
-                        +  "<p>Employed: " + getEmployed(d)+ "M</p>")
+            div.html("<p style='font-weight: bolder'>" + d.occupation + "</p>"
+                      + "<p style='float: left'><b>Year:</b> " + currentYear.toFixed(0) + "</pstyle>"
+                      + "<p style='float: left; margin-top: -10px'><b>Income: $</b>" + getIncome(d)+ "</p>"
+                      +  "<p style='float: left; margin-top: -10px''><b>Employed:</b> " + getEmployed(d)+ "M</p>")
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY) + "px");
+
             //Show the tooltip
             d3.select("#tooltip").classed("hidden", false);
 
@@ -150,6 +153,7 @@ function motionChart(nations) {
     function getEmployed(d) {
         return (d['employed'] / 1000).toFixed(1);
     }
+
     //Legend
     var legend = svg.append("g")
         .attr("class", "legend")
