@@ -11,16 +11,12 @@ function radius(d) {
     return d[params.radius];
 }
 
-function color(d) {
-    return d[params.color];
-}
 function key(d) {
     return d[params.key];
 }
 
 
 //Define Color
-//var colors = d3.scale.category20();
 var colors = d3.scale.ordinal()
     .range(["#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#d9d9d9", "#fbb4ae"]);
 
@@ -124,7 +120,7 @@ function motionChart(nations) {
                       + "<p style='float: left'><b>Year:</b> " + currentYear.toFixed(0) + "</pstyle>"
                       + "<p style='float: left; margin-top: -10px'><b>Income: $</b>" + getIncome(d)+ "</p>"
                       +  "<p style='float: left; margin-top: -10px''><b>Employed:</b> " + getEmployed(d)+ "M</p>")
-                .style("left", (d3.event.pageX) + "px")
+                .style("left", (d3.event.pageX - 100) + "px")
                 .style("top", (d3.event.pageY) + "px");
 
             //Show the tooltip
@@ -135,6 +131,7 @@ function motionChart(nations) {
             div.transition()
                 .duration(500)
                 .style("opacity", 0);
+
             d3.select("#tooltip").classed("hidden",  true);
         })
         .call(position)
@@ -229,8 +226,6 @@ function motionChart(nations) {
         return radius(b) - radius(a);
     }
 
-
-
     // After the transition finishes, you can mouseover to change the year.
     function enableInteraction() {
 
@@ -240,15 +235,12 @@ function motionChart(nations) {
 
         overlay
             .on("mouseover", mouseover)
-            .on("mouseout", mouseout)
-            .on("mousemove", mousemove)
-            .on("touchmove", mousemove);
+            .on("mouseout", mouseout);
+            //.on("touchmove", mousemove);
 
         overlay
             .on("mouseover", mouseover)
             .on("mouseout", mouseout);
-            //.on("mousemove", mousemove)
-            //.on("touchmove", mousemove);
 
         function mouseover() {
             label.classed("active", true);
@@ -258,11 +250,6 @@ function motionChart(nations) {
             label.classed("active", false);
         }
 
-        function mousemove() {
-//            console.log(d3.mouse(this)[1]);
-            //displayYear(yearScale.invert(Number(d3.mouse(this)[1])));
-//            displayYear(yearScale.invert(100));
-        }
     }
 
     // Tweens the entire chart by first tweening the year, and then the data.
