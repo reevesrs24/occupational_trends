@@ -29,8 +29,8 @@ var margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 41.5},
     yearMargin = 105;
 
 var xScale = d3.scale.log().domain([params.xmin, params.xmax]).range([0, width - yearMargin]),
-    yScale = d3.scale.linear().domain([params.ymin, params.ymax]).range([height, 0]),
-    radiusScale = d3.scale.sqrt().domain([params.rmin, params.rmax]).range([5, 25]);
+    yScale = d3.scale.linear().domain([params.ymin, params.ymax]).range([height, 0]);
+    //radiusScale = d3.scale.sqrt().domain([params.rmin, params.rmax]).range([5, 25]);
 
 // The x & y axes.
 var xAxis = d3.svg.axis().orient("bottom").scale(xScale).ticks(12, d3.format(",d")),
@@ -116,10 +116,13 @@ function motionChart(nations) {
             div.transition()
                 .duration(200)
                 .style("opacity", .9);
-            div.html("<p style='font-weight: bolder'>" + d.occupation + "</p>"
-                      + "<p style='float: left'><b>Year:</b> " + currentYear.toFixed(0) + "</pstyle>"
-                      + "<p style='float: left; margin-top: -10px'><b>Income: $</b>" + getIncome(d)+ "</p>"
-                      +  "<p style='float: left; margin-top: -10px''><b>Employed:</b> " + getEmployed(d)+ "M</p>")
+            div.html("<p style='font-weight: bolder;'>" + d.occupation + "</p>"
+                      + "<p style='float: left;  clear: both;'><b>Year:</b></p><p style='float: right'> "
+                + currentYear.toFixed(0) + "</p>"
+                      + "<p style='float: left; margin-top: -10px; clear: both;'><b>Weekly Income (Dollars):</b><p/><p style='float: right; margin-top: -10px;'>$"
+                + getIncome(d) + "</p>"
+                      +  "<p style='float: left; margin-top: -10px; clear: both;''><b>Total Employed (Million):</b></p><p style='float: right; margin-top: -10px;'> "
+                + getEmployed(d)+ "</p>")
                 .style("left", (d3.event.pageX - 100) + "px")
                 .style("top", (d3.event.pageY) + "px");
 
@@ -163,19 +166,20 @@ function motionChart(nations) {
         });
 
     legend.append("rect")
-        .attr("width", 8)
-        .attr("height", 8)
+        .attr("width", 10)
+        .attr("height", 10)
         .style("fill", function(d){return colors(d.occupation)});
 
     legend.append("text")
         .attr("x", 25)
-        .attr("dy", "0.50em")
+        .attr("dy", "0.75em")
+        .style("font-size","11px")
         .text(function(d){return d.occupation;})
 
     //Radius Correlation
     var legend2 = svg.append("g")
         .attr("class", "legend")
-        .attr("transform", "translate(" + 775 + "," + 325 + ")")
+        .attr("transform", "translate(" + 775 + "," + 350 + ")")
         .selectAll("g")
         .data([1e6, 5e6, 15e6, 30e6])
         .enter().append("g");
@@ -236,7 +240,6 @@ function motionChart(nations) {
         overlay
             .on("mouseover", mouseover)
             .on("mouseout", mouseout);
-            //.on("touchmove", mousemove);
 
         overlay
             .on("mouseover", mouseover)
