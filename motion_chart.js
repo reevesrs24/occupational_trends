@@ -15,6 +15,7 @@ function key(d) {
     return d[params.key];
 }
 
+var timeElapsed = 0;
 
 //Define Color
 var colors = d3.scale.ordinal()
@@ -89,7 +90,10 @@ var radius2 = d3.scale.sqrt()
     .domain([0, 1e6])
     .range([0, 10]);
 
+
+
 function motionChart(nations) {
+
 
 
     // A bisector since many nation's data is sparsely-defined.
@@ -196,13 +200,13 @@ function motionChart(nations) {
 
     var box = label.node().getBBox();
 
+
     var overlay = svg.append("rect")
         .attr("class", "overlay")
         .attr("x", box.x)
         .attr("y", box.y)
-        .attr("width", box.width)
-        .attr("height", height)
-        .on("mouseover", enableInteraction);
+        .attr("width", box.width);
+
 
     // Start a transition that interpolates the data based on year.
     svg.transition()
@@ -231,11 +235,9 @@ function motionChart(nations) {
     }
 
     // After the transition finishes, you can mouseover to change the year.
+
     function enableInteraction() {
 
-
-        // Cancel the current transition, if any.
-        svg.transition().duration(0);
 
         overlay
             .on("mouseover", mouseover)
@@ -264,19 +266,26 @@ function motionChart(nations) {
         };
     }
 
+    function resume() {
+        var year = d3.interpolateNumber(currentYear, params.yearMax);
+        return function (t) {
+            displayYear(year(t));
+        };
+    }
     // Updates the display to show the specified year.
     function displayYear(year) {
+        timeElapsed++;
         currentYear = year;
         dot.data(interpolateData(year), key).call(position).sort(order);
         label.text(Math.round(year))
             //.attr("y", 48 + (year - params.yearMin) * (height - 64)/ (params.yearMax - params.yearMin));
-            .attr("y", 425);
+          .attr("y", 425);
     }
 
     // Interpolates the dataset for the given (fractional) year.
     function interpolateData(year) {
         return nations.map(function (d) {
-            var tmp={}
+            var tmp={};
             tmp[params.key]= d[params.key],
                 tmp[params.color]= d[params.color]
             tmp[params.x]= interpolateValues(d[params.x], year)
@@ -297,9 +306,39 @@ function motionChart(nations) {
         }
         return a[1];
     }
+
+
+    $( "#pause" ).click(function() {
+        svg.transition().duration(0);
+    });
+
+    $( "#play" ).click(function() {
+
+        //38.6 calls to the display year function per second
+        //timeelapsed var is incremented each time
+        //divide bby 38.6 and multiply by 1000 to get time elapsed in secs
+        //Subtract this amount from the beginning duration
+        svg.transition()
+            .duration(30000 - (timeElapsed / 38.6) * 1000)
+            .ease("linear")
+            .tween("year", resume)
+            .each("end", enableInteraction);
+    });
+
+    $( "#restart" ).click(function() {
+
+        timeElapsed = 0;
+        svg.transition()
+            .duration(30000)
+            .ease("linear")
+            .tween("year", tweenYear)
+            .each("end", enableInteraction);
+    });
+
 }
 
 // Load the data.
 d3.json(params.jsondatafile, function (nations) {
     motionChart(nations)
 });
+
